@@ -45,6 +45,23 @@ def create_features(data):
     df['STD7'] = df['Close'].rolling(window=7).std()
     df.fillna(method='bfill', inplace=True)
     return df
+    
+def calculate_metrics(actual, predicted):
+    """Tính toán các metrics đánh giá"""
+    # Đảm bảo dữ liệu là 1D array
+    actual = np.array(actual).ravel()
+    predicted = np.array(predicted).ravel()
+
+    mse = mean_squared_error(actual, predicted)
+    rmse = np.sqrt(mse)
+    mae = mean_absolute_error(actual, predicted)
+    mape = np.mean(np.abs((actual - predicted) / actual)) * 100
+    return {
+        'MSE': mse,
+        'RMSE': rmse,
+        'MAE': mae,
+        'MAPE': mape
+    }
 
 def arima_prediction(data, forecast_days=30):
     try:
@@ -148,23 +165,6 @@ def drcnn_prediction(data, forecast_days=30):
     except Exception as e:
         print(f"Lỗi trong DRCNN prediction: {str(e)}")
         return None, None
-
-def calculate_metrics(actual, predicted):
-    """Tính toán các metrics đánh giá"""
-    # Đảm bảo dữ liệu là 1D array
-    actual = np.array(actual).ravel()
-    predicted = np.array(predicted).ravel()
-
-    mse = mean_squared_error(actual, predicted)
-    rmse = np.sqrt(mse)
-    mae = mean_absolute_error(actual, predicted)
-    mape = np.mean(np.abs((actual - predicted) / actual)) * 100
-    return {
-        'MSE': mse,
-        'RMSE': rmse,
-        'MAE': mae,
-        'MAPE': mape
-    }
 
 def print_insights(data, arima_results, drcnn_results):
     """In ra các insight về dự đoán"""
