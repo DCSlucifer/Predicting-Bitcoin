@@ -227,8 +227,6 @@ def print_insights(data, arima_results, drcnn_results):
     else:
         print("DRCNN có độ chính xác cao hơn dựa trên RMSE")
 
-
-
 def visualize_predictions(data, arima_results, drcnn_results):
     try:
         # Kiểm tra dữ liệu đầu vào
